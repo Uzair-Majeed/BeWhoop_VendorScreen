@@ -17,16 +17,15 @@
 
 .left-bg {
   position: relative;
-  width: 50%;
+  width: 80% !important;
   height: 100vh;
   background-size: cover;
   background-position: center;
-  border-radius: 20px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  padding-bottom: 0; /* or 1rem */
+  padding-bottom: 0; 
 }
 
 .text-group {
@@ -66,17 +65,21 @@
 
 .label1 {
   margin-top:60px;
+  margin-left:0 !important;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   font-size: 24px;
   color: #060606;
   margin-bottom: 2rem;
 }
 
-.label2 {
-  margin-top:10px;
+
+
+.label3 {
+  margin-top:20px;
+  margin-left:0 !important;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   font-size: 24px;
-  color: #060606;
+  color: #060606 !important;
   margin-bottom: 2rem;
 }
 
@@ -112,7 +115,7 @@
 }
 .text-container {
   width: 80%;
-  height: 700px;
+  height: 150px;
   padding: 0.75rem;
   border-radius: 8px;
   background-color: #F5F6FA;
@@ -208,6 +211,7 @@
   gap: 10px;
   margin-top: 10px;
   flex-wrap: wrap;
+  margin-bottom: 50px !important;
 }
 
 .add-chip {
@@ -222,6 +226,7 @@
   transition: background-color 0.2s ease;
 }
 
+
 .next-button {
   background-color: #BE0000;
   color: white;
@@ -231,12 +236,11 @@
   font-size: 1rem;
   cursor: pointer;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
-  align-self: flex-end;            
+  align-self: flex-end !important;            
   margin-top: 2rem;
 
   margin-left: auto;
 }
-
 .next-button:hover {
   background-color: #df4545;
 }

@@ -34,7 +34,7 @@ function Dashboard() {
             <p>No profile image uploaded.</p>
           )}
           
-          <h2>Vendor Name!</h2>
+          <h2>{vendorData.firstName} {vendorData.lastName}</h2>
           <p>Event Organizer</p>
         </div>
 

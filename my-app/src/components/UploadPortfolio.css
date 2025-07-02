@@ -1,21 +1,22 @@
-.vendor-card {
+.update-portfolio-card {
   display: flex;
   width: 100%;
+  height: 100vh; 
 }
 
-.left-bg {
-  width: 50%;
+.update-portfolio-left-bg {
+  width: 70% !important;
+  border-radius: 0 !important;
   height: 100vh;
   background-size: cover;
   background-position: center;
-  border-radius: 20px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
 }
 
-.text-group {
+.update-portfolio-text-group {
   margin-bottom: 3rem;
   text-align: center;
   display: flex;
@@ -23,14 +24,14 @@
   align-items: center;
 }
 
-.text-group h1 {
+.update-portfolio-text-group h1 {
   font-family: 'BricolageGrotesque-Medium', sans-serif;
   font-size: 32px;
   margin-bottom: 0.5rem;
   color: #F5F6FA;
 }
 
-.text-group p {
+.update-portfolio-text-group p {
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   font-size: 14px;
   max-width: 80%;
@@ -38,7 +39,7 @@
   color: #F5F6FA;
 }
 
-.vendor-info {
+.update-portfolio-info {
   width: 100%;
   padding: 4rem;
   background-color: #ffffff;
@@ -47,7 +48,7 @@
   border-radius: 20px;
 }
 
-.label1 {
+.update-portfolio-label1 {
   margin-top: 60px;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   font-size: 24px;
@@ -56,7 +57,7 @@
   margin-left: 2rem;
 }
 
-.CNIC-upload {
+.update-portfolio-cnic-upload {
   display: flex;
   justify-content: space-between;
   gap: 2rem;
@@ -65,18 +66,18 @@
   box-sizing: border-box;
 }
 
-.cnic-buttons {
+.update-portfolio-cnic-buttons {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
-.upload-group {
+.update-portfolio-upload-group {
   display: flex;
   flex-direction: column;
 }
 
-.upload-button {
+.update-portfolio-upload-button {
   padding: 0.5rem 10rem;
   border-radius: 20px;
   background-color: #FFE7DE;
@@ -87,7 +88,7 @@
   font-size: 14px;
 }
 
-.cnic-previews {
+.update-portfolio-cnic-previews {
   flex: 2;
   padding: 0rem 3rem;
   border-radius: 8px;
@@ -95,12 +96,12 @@
   min-width: 300px;
 }
 
-.cnic-info {
+.update-portfolio-cnic-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #f5f5f5;
-  padding: 12px 16px;
+  padding: 8px 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
   margin-bottom: 1rem;
@@ -110,20 +111,18 @@
   font-family: 'BricolageGrotesque-Bold', sans-serif;
 }
 
-
-.cnic-info span:nth-child(2),
-.cnic-info span:nth-child(3) {
+.update-portfolio-cnic-info span:nth-child(2),
+.update-portfolio-cnic-info span:nth-child(3) {
   color: #999;
 }
 
-.trash-icon {
+.update-portfolio-trash-icon {
   width: 18px;
   height: 18px;
   cursor: pointer;
 }
 
-
-.next-button {
+.update-portfolio-next-button {
   background-color: #BE0000;
   color: white;
   padding: 1rem 8rem;
@@ -137,7 +136,7 @@
   margin-left: auto;
 }
 
-.next-button:hover {
+.update-portfolio-next-button:hover {
   background-color: #df4545;
 }
 
@@ -154,51 +153,51 @@
 }
 
 @media (max-width: 768px) {
-  .vendor-card {
+  .update-portfolio-card {
     flex-direction: column;
     height: auto;
   }
 
-  .left-bg {
+  .update-portfolio-left-bg {
     width: 100%;
     height: 300px;
     border-radius: 0;
   }
 
-  .vendor-info {
+  .update-portfolio-info {
     width: 100%;
     padding: 2rem;
     border-radius: 0;
   }
 
-  .label1 {
+  .update-portfolio-label1 {
     margin-left: 0;
     text-align: center;
   }
 
-  .CNIC-upload {
+  .update-portfolio-cnic-upload {
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
   }
 
-  .cnic-buttons {
+  .update-portfolio-cnic-buttons {
     flex-direction: row;
     justify-content: center;
     gap: 1rem;
   }
 
-  .upload-button {
+  .update-portfolio-upload-button {
     padding: 0.5rem 2rem;
     width: 100%;
   }
 
-  .cnic-previews {
+  .update-portfolio-cnic-previews {
     padding: 1rem;
     min-width: unset;
   }
 
-  .next-button {
+  .update-portfolio-next-button {
     width: 100%;
     padding: 1rem;
     margin-left: 0;
@@ -206,5 +205,3 @@
     margin-top: 2rem;
   }
 }
-
-

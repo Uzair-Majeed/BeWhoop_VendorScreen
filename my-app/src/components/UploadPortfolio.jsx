@@ -1,4 +1,4 @@
-import { useState, useRef ,useContext } from 'react';
+import { useState, useRef ,useContext } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import './UploadPortfolio.css';
 import Bg from '../assets/UploadPortfolio.png';
@@ -30,22 +30,22 @@ function UpdatePortfolio() {
   const triggerBackUpload = () => backRef.current.click();
 
   return (
-    <div className="vendor-card">
-      <div className="left-bg" style={{ backgroundImage: `url(${Bg})` }}>
-        <div className="text-group">
+    <div className="update-portfolio-card">
+      <div className="update-portfolio-left-bg" style={{ backgroundImage: `url(${Bg})` }}>
+        <div className="update-portfolio-text-group">
           <h1>Upload Portfolio</h1>
           <p>Reference site about Lorem Ipsum, giving information on its origins, as well.</p>
         </div>
       </div>
 
-      <div className="vendor-info">
-        <label className="label1">Add Portfolio</label>
+      <div className="update-portfolio-info">
+        <label className="update-portfolio-label1">Add Portfolio</label>
         <FileUpload />
 
-        <label className="label1">Add Your CNIC</label>
-        <div className="CNIC-upload">
-          <div className="cnic-buttons">
-            <div className="upload-group">
+        <label className="update-portfolio-label1">Add Your CNIC</label>
+        <div className="update-portfolio-cnic-upload">
+          <div className="update-portfolio-cnic-buttons">
+            <div className="update-portfolio-upload-group">
               <input
                 type="file"
                 accept=".png, .jpg, .jpeg, .pdf"
@@ -53,10 +53,10 @@ function UpdatePortfolio() {
                 style={{ display: 'none' }}
                 onChange={handleUploadFront}
               />
-              <button className="upload-button" onClick={triggerFrontUpload}>Upload Front</button>
+              <button className="update-portfolio-upload-button" onClick={triggerFrontUpload}>Upload Front</button>
             </div>
 
-            <div className="upload-group">
+            <div className="update-portfolio-upload-group">
               <input
                 type="file"
                 accept=".png, .jpg, .jpeg, .pdf"
@@ -64,45 +64,45 @@ function UpdatePortfolio() {
                 style={{ display: 'none' }}
                 onChange={handleUploadBack}
               />
-              <button className="upload-button" onClick={triggerBackUpload}>Upload Back</button>
+              <button className="update-portfolio-upload-button" onClick={triggerBackUpload}>Upload Back</button>
             </div>
           </div>
 
-          <div className="cnic-previews">
+          <div className="update-portfolio-cnic-previews">
             {cnicFront && (
-              <div className="cnic-info">
-                  <span>{cnicFront.name}</span>
+              <div className="update-portfolio-cnic-info">
+                <span>{cnicFront.name}</span>
                 <div>
-                <span style={{ fontSize: '14px', color: '#666' }}>
-                {cnicFront.size > 1024 * 1024
-                  ? `${(cnicFront.size / (1024 * 1024)).toFixed(2)} MB, `
-                  : `${(cnicFront.size / 1024).toFixed(2)} KB, `}
-                {cnicFront.type.replace('image/', '')}
-              </span>
+                  <span style={{ fontSize: '14px', color: '#666' }}>
+                    {cnicFront.size > 1024 * 1024
+                      ? `${(cnicFront.size / (1024 * 1024)).toFixed(2)} MB, `
+                      : `${(cnicFront.size / 1024).toFixed(2)} KB, `}
+                    {cnicFront.type.replace('image/', '')}
+                  </span>
                 </div>
                 <img
                   src={Trash}
                   alt="delete"
-                  className="trash-icon"
+                  className="update-portfolio-trash-icon"
                   onClick={() => setCnicFront(null)}
                 />
               </div>
             )}
             {cnicBack && (
-              <div className="cnic-info">
-                  <span>{cnicBack.name}</span>
+              <div className="update-portfolio-cnic-info">
+                <span>{cnicBack.name}</span>
                 <div>
-                <span style={{ fontSize: '14px', color: '#666' }}>
-                {cnicBack.size > 1024 * 1024
-                  ? `${(cnicBack.size / (1024 * 1024)).toFixed(2)} MB, `
-                  : `${(cnicBack.size / 1024).toFixed(2)} KB, `}
-                {cnicBack.type.replace('image/', '')}
-              </span>
+                  <span style={{ fontSize: '14px', color: '#666' }}>
+                    {cnicBack.size > 1024 * 1024
+                      ? `${(cnicBack.size / (1024 * 1024)).toFixed(2)} MB, `
+                      : `${(cnicBack.size / 1024).toFixed(2)} KB, `}
+                    {cnicBack.type.replace('image/', '')}
+                  </span>
                 </div>
                 <img
                   src={Trash}
                   alt="delete"
-                  className="trash-icon"
+                  className="update-portfolio-trash-icon"
                   onClick={() => setCnicBack(null)}
                 />
               </div>
@@ -110,14 +110,12 @@ function UpdatePortfolio() {
           </div>
         </div>
 
-        <button className="next-button" onClick={() => {
-          
+        <button className="update-portfolio-next-button" onClick={() => {
           setVendorData(prevData => ({
             ...prevData, 
             cnicFront: cnicFront,
             cnicBack: cnicBack,
           }));
-          
           navigate('/Dashboard')}}>
           Next
         </button>

@@ -71,7 +71,7 @@ function VendorSetup() {
             ))}
           </div>
 
-        <label className="label2">Type Your Location</label>
+        <label className="label3">Type Your Location</label>
         <select className="select-input" placeholder="City">
           <option value="City">City</option>
           <option value="Islamabad">Islamabad</option>
@@ -83,7 +83,7 @@ function VendorSetup() {
 
         <input className="simple-input" placeholder="Enter google map link here." />
 
-        <label className="label2">Price Range</label>
+        <label className="label3">Price Range</label>
         <div className="price-range">
           <input className="input-range" placeholder="Minimum" id="1"/>
           <input className="input-range" placeholder="Maximum" id="2"/>
@@ -97,8 +97,9 @@ function VendorSetup() {
             mapLink: document.querySelector('.simple-input').value,
             minPrice: document.getElementById('1').value,
             maxPrice: document.getElementById('2').value,
-          }));
-              navigate('/UploadPortfolio')}
+          }))
+          navigate('/UploadPortfolio')
+            }
         }>Next</button>
       </div>
     </div>
