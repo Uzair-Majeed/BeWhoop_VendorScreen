@@ -19,7 +19,7 @@
 
 .signup-left-bg {
   position: relative;
-  width: 80% !important;
+  width: 100% !important;
   border-radius: 0 !important;
   height: 100vh;
   background-size: cover;
@@ -65,11 +65,13 @@
 }
 
 .signup-title-group {
-  text-align: center;
+  text-align: left; /* change from center */
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; /* change from center */
+  margin-left: 10rem;
 }
+
 
 .signup-title-group h1 {
   font-family: 'BricolageGrotesque-Medium', sans-serif;
@@ -86,7 +88,7 @@
 }
 
 .signup-password-container {
-  width: 83%;
+  width: 68%;
   display: flex;
   justify-content: space-between;
 }
@@ -115,21 +117,21 @@
   margin-left: 3rem;
   margin-bottom: 2rem;
 }
-
 .signup-label4 {
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   font-size: 16px;
   color: #8A8B8C;
   text-decoration: underline;
-  text-align: center;
-  display: block;
+  text-align: left;
   width: 100%;
-  margin: 20px 0;
+  display: block;
+  margin: 20px 0 0 11rem; /* top, right, bottom, left */
 }
 
+
 .signup-simple-input {
-  width: 78.5%;
-  padding: 0.75rem;
+  width: 60.5%;
+  padding: 1rem;
   border-radius: 8px;
   background-color: #F5F6FA;
   border: 1px solid #D5D5D5;
@@ -149,9 +151,9 @@
   font-size: 1rem;
   cursor: pointer;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
-  align-self: center;
+  align-self: flex-start;
+  margin-left: 9rem;
   display: block;
-  margin: 0;
 }
 
 .signup-next-button:hover {
@@ -161,7 +163,8 @@
 .signup-social-icons {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-self: flex-start;
+  margin-left: 13rem;
   margin-top: 0.5rem;
   gap: 10px;
 }
