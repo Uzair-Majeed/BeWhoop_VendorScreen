@@ -6,6 +6,7 @@ export const VendorProvider = ({ children }) => {
   const [vendorData, setVendorData] = useState({
     firstName: '',
     lastName:'',
+    email : '',
     profileImage: null,
     description: '',
     services: [],

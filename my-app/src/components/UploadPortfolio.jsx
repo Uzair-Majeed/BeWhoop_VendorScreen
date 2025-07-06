@@ -1,4 +1,4 @@
-import { useState, useRef ,useContext } from 'react'; 
+import { useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './UploadPortfolio.css';
 import Bg from '../assets/UploadPortfolio.png';
@@ -9,6 +9,7 @@ import { VendorContext } from '../contexts/VendorContext.jsx';
 function UpdatePortfolio() {
   const [cnicFront, setCnicFront] = useState(null);
   const [cnicBack, setCnicBack] = useState(null);
+  const [error, setError] = useState('');
   const frontRef = useRef(null);
   const backRef = useRef(null);
   const { vendorData, setVendorData } = useContext(VendorContext);
@@ -16,18 +17,53 @@ function UpdatePortfolio() {
 
   const handleUploadFront = (e) => {
     const file = e.target.files[0];
-    if (file) setCnicFront(file);
-    e.target.value = ''; 
+    if (file && validateFile(file)) {
+      setCnicFront(file);
+      setError('');
+    }
+    e.target.value = '';
   };
 
   const handleUploadBack = (e) => {
     const file = e.target.files[0];
-    if (file) setCnicBack(file);
-    e.target.value = ''; 
+    if (file && validateFile(file)) {
+      setCnicBack(file);
+      setError('');
+    }
+    e.target.value = '';
   };
 
-  const triggerFrontUpload = () => frontRef.current.click();
-  const triggerBackUpload = () => backRef.current.click();
+  const validateFile = (file) => {
+    const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf'];
+    const maxSizeMB = 5;
+
+    if (!validTypes.includes(file.type)) {
+      setError('Only PNG, JPG, JPEG or PDF files are allowed.');
+      return false;
+    }
+
+    if (file.size > maxSizeMB * 1024 * 1024) {
+      setError(`File must be under ${maxSizeMB}MB.`);
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleNext = () => {
+    if (!cnicFront || !cnicBack) {
+      setError('Please upload both front and back of your CNIC.');
+      return;
+    }
+
+    setError('');
+    setVendorData((prevData) => ({
+      ...prevData,
+      cnicFront: cnicFront,
+      cnicBack: cnicBack,
+    }));
+    navigate('/MyProfile');
+  };
 
   return (
     <div className="update-portfolio-card">
@@ -53,7 +89,9 @@ function UpdatePortfolio() {
                 style={{ display: 'none' }}
                 onChange={handleUploadFront}
               />
-              <button className="update-portfolio-upload-button" onClick={triggerFrontUpload}>Upload Front</button>
+              <button className="update-portfolio-upload-button" onClick={() => frontRef.current.click()}>
+                Upload Front
+              </button>
             </div>
 
             <div className="update-portfolio-upload-group">
@@ -64,7 +102,9 @@ function UpdatePortfolio() {
                 style={{ display: 'none' }}
                 onChange={handleUploadBack}
               />
-              <button className="update-portfolio-upload-button" onClick={triggerBackUpload}>Upload Back</button>
+              <button className="update-portfolio-upload-button" onClick={() => backRef.current.click()}>
+                Upload Back
+              </button>
             </div>
           </div>
 
@@ -74,10 +114,7 @@ function UpdatePortfolio() {
                 <span>{cnicFront.name}</span>
                 <div>
                   <span style={{ fontSize: '14px', color: '#666' }}>
-                    {cnicFront.size > 1024 * 1024
-                      ? `${(cnicFront.size / (1024 * 1024)).toFixed(2)} MB, `
-                      : `${(cnicFront.size / 1024).toFixed(2)} KB, `}
-                    {cnicFront.type.replace('image/', '')}
+                    {formatFileSize(cnicFront.size)}, {getFileType(cnicFront.type)}
                   </span>
                 </div>
                 <img
@@ -93,10 +130,7 @@ function UpdatePortfolio() {
                 <span>{cnicBack.name}</span>
                 <div>
                   <span style={{ fontSize: '14px', color: '#666' }}>
-                    {cnicBack.size > 1024 * 1024
-                      ? `${(cnicBack.size / (1024 * 1024)).toFixed(2)} MB, `
-                      : `${(cnicBack.size / 1024).toFixed(2)} KB, `}
-                    {cnicBack.type.replace('image/', '')}
+                    {formatFileSize(cnicBack.size)}, {getFileType(cnicBack.type)}
                   </span>
                 </div>
                 <img
@@ -110,18 +144,25 @@ function UpdatePortfolio() {
           </div>
         </div>
 
-        <button className="update-portfolio-next-button" onClick={() => {
-          setVendorData(prevData => ({
-            ...prevData, 
-            cnicFront: cnicFront,
-            cnicBack: cnicBack,
-          }));
-          navigate('/Dashboard')}}>
+        {error && <p className="error-fields">{error}</p>}
+
+        <button className="update-portfolio-next-button" onClick={handleNext}>
           Next
         </button>
       </div>
     </div>
   );
+}
+
+//helper functions
+function formatFileSize(size) {
+  return size > 1024 * 1024
+    ? `${(size / (1024 * 1024)).toFixed(2)} MB`
+    : `${(size / 1024).toFixed(2)} KB`;
+}
+
+function getFileType(type) {
+  return type.includes('image') ? type.replace('image/', '') : 'PDF';
 }
 
 export default UpdatePortfolio;

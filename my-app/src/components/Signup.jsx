@@ -6,24 +6,51 @@ import googleIcon from '../assets/Google-Icon.png';
 import fbIcon from '../assets/FB-Icon.png';
 import whIcon from '../assets/WH-Icon.png';
 import { VendorContext } from '../contexts/VendorContext.jsx';
-import OTP from './OTP.jsx';
 
 function Signup() {
-  const [showOTP, setShowOTP] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [error, setError] = useState('');
   const { setVendorData } = useContext(VendorContext);
   const navigate = useNavigate();
 
-  // Use controlled components
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const validateEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleSignup = () => {
+    if (!firstName || !lastName || !email || !password) {
+      setError('Please fill out all fields');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+    
+    if (!termsAccepted) {
+      setError('You must accept the terms and conditions');
+    return;
+    }
+
+    const FullName=firstName + lastName;
+    setError('');
     setVendorData(prev => ({
       ...prev,
       firstName,
-      lastName
+      lastName,
+      email,
+      password
     }));
-    setShowOTP(true);
+    navigate('/VendorProfile'); 
   };
 
   return (
@@ -40,6 +67,7 @@ function Signup() {
           <h1>Join as a Vendor</h1>
           <p>Create an account to join as a Vendor</p>
         </div>
+
 
         <label className="signup-label1">First Name</label>
         <input
@@ -58,26 +86,41 @@ function Signup() {
         />
 
         <label className="signup-label1">Email</label>
-        <input className="signup-simple-input" placeholder="Henna_Adam@gmail.com" />
+        <input
+          className="signup-simple-input"
+          placeholder="Henna_Adam@gmail.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
         <div className="signup-password-container">
           <label className="signup-label1">Password</label>
           <label className="signup-label2">Forgot Password?</label>
         </div>
 
-        <input className="signup-simple-input" placeholder="••••••••••" type="password" />
+        <input
+          className="signup-simple-input"
+          placeholder="••••••••••"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
         <label className="signup-label3">
-          <input type="checkbox" />
-          I accept terms and conditions
+          <input type="checkbox" checked={termsAccepted} onChange={(e) => setTermsAccepted(e.target.checked)}
+          /> I accept terms and conditions
         </label>
+
+        
+        {error && <p className="error-fields">{error}</p>}
 
         <button className="signup-next-button" onClick={handleSignup}>
           SignUp
         </button>
 
+
         <label className="signup-label4">
-          Already have an account? <span>Login</span><br />
+          Already have an account? <span>Signup</span><br />
         </label>
 
         <div className="signup-social-icons">
@@ -96,8 +139,6 @@ function Signup() {
           </div>
         </div>
       </div>
-
-      {showOTP && <OTP onClose={() => setShowOTP(false)} />}
     </div>
   );
 }

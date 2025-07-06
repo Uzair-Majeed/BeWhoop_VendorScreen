@@ -5,6 +5,7 @@ import './App.css'
 import UploadPortfolio from './components/UploadPortfolio.jsx';
 import Dashboard from './components/Dashboard.jsx';
 import Signup from './components/Signup.jsx';
+import EditProfile from './components/EditProfile.jsx'
 import { VendorProvider } from './contexts/VendorContext.jsx';
 
 function App() {
@@ -18,7 +19,8 @@ function App() {
         <Route path="/VendorProfile" element={<VendorProfile />} />  
         <Route path="/SettingUp" element={<VendorSetup />} />
         <Route path="/UploadPortfolio" element={<UploadPortfolio />} />
-        <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/MyProfile" element={<Dashboard />} />
+        <Route path="/EditProfile" element={<EditProfile />} />
       </Routes>
     </BrowserRouter>
     </VendorProvider>

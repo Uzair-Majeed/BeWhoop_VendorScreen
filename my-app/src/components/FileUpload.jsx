@@ -18,11 +18,20 @@ function FileUploadSplit() {
     'audio/mpeg'
   ];
   useEffect(() => {
-  setVendorData((prev) => ({
-    ...prev,
-    portfolio: files,
-  }));
+  if (files.length > 0) {
+    setVendorData((prev) => {
+      const existing = prev.portfolio || [];
+      const unique = files.filter(
+        (file) => !existing.some((f) => f.name === file.name && f.size === file.size)
+      );
+      return {
+        ...prev,
+        portfolio: [...existing, ...unique],
+      };
+    });
+  }
 }, [files]);
+
 
   const handleDrop = (e) => {
     e.preventDefault();

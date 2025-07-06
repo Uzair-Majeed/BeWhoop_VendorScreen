@@ -75,7 +75,7 @@
 
 
 .label3 {
-  margin-top:20px;
+  margin-top:15px;
   margin-left:0 !important;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   font-size: 24px;
@@ -237,7 +237,7 @@
   cursor: pointer;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   align-self: flex-end !important;            
-  margin-top: 2rem;
+  margin-top: 1rem !important;  
 
   margin-left: auto;
 }
@@ -245,6 +245,15 @@
   background-color: #df4545;
 }
 
+
+.error-fields {
+  
+  font-size: 14px;
+  color: red !important;
+  font-family: 'BricolageGrotesque-Bold', sans-serif;
+  margin-left: 0rem !important;
+  margin-top: 0rem;
+}
 
 @media (max-width: 768px) {
   .vendor-card {

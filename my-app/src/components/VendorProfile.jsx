@@ -1,18 +1,17 @@
 import { useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { VendorContext } from '../contexts/VendorContext.jsx';
-
 import './VendorProfile.css';
 import bg from '../assets/bg-pic.png';
-import defaultImage from '../assets/UploadPic.png'; 
+import defaultImage from '../assets/UploadPic.png';
 
 function VendorProfile() {
-  const [profilePreview, setProfilePreview] = useState(null); 
+  const [profilePreview, setProfilePreview] = useState(null);
+  const [error, setError] = useState('');
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
   const { vendorData, setVendorData } = useContext(VendorContext);
-  console.log("Vendor Data:", vendorData);
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
@@ -23,20 +22,32 @@ function VendorProfile() {
     if (file) {
       const previewUrl = URL.createObjectURL(file);
       setProfilePreview(previewUrl);
-      setVendorData(prev => ({
+      setVendorData((prev) => ({
         ...prev,
-        profileImageFile: file,   
-        profileImage: previewUrl   
+        profileImageFile: file,
+        profileImage: previewUrl,
       }));
     }
   };
 
   const handleNext = () => {
-    const description = document.querySelector('.description-input').value;
+    const description = document.querySelector('.description-input').value.trim();
 
-    setVendorData(prevData => ({
+    // Error Handling
+    if (!vendorData.profileImageFile) {
+      setError('Please upload a profile picture.');
+      return;
+    }
+
+    if (!description) {
+      setError('Please enter a short description about your services.');
+      return;
+    }
+
+    setError('');
+    setVendorData((prevData) => ({
       ...prevData,
-      description: description,
+      description,
     }));
 
     navigate('/SettingUp');
@@ -60,7 +71,7 @@ function VendorProfile() {
           className="upload-circle"
           onClick={handleUploadClick}
           style={{
-            backgroundImage: `url(${profilePreview || defaultImage})`
+            backgroundImage: `url(${profilePreview || defaultImage})`,
           }}
         >
           <input
@@ -74,6 +85,8 @@ function VendorProfile() {
 
         <label className="label2">Add Description</label>
         <textarea className="description-input" placeholder="Write here..." />
+
+        {error && <p className="error-fields">{error}</p>}
 
         <button className="next-button" onClick={handleNext}>
           Next

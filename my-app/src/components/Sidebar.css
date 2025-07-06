@@ -57,6 +57,8 @@
   align-items: center;
   gap: 10px; 
   padding: 10px 0;
+  cursor: pointer;
+
 }
 
 .nav-item a{
@@ -83,6 +85,16 @@
   border-top: 1px solid #e5e7eb;
   margin: 20px 0;
   width: 100%;
+}
+
+.nav-item.active a {
+  color: #BE0000;
+  font-weight: bold;
+}
+
+.nav-item.active .nav-icon,
+.nav-item.active .dot-icon {
+  filter: brightness(0) saturate(100%) invert(24%) sepia(94%) saturate(6936%) hue-rotate(358deg) brightness(101%) contrast(103%);
 }
 
 @media (max-width: 1024px) {

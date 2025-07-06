@@ -97,7 +97,7 @@
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   font-size: 18px;
   color: #202224;
-  margin: 0 0 1rem 3rem;
+  margin: 0.5rem 0 1rem 3rem;
 }
 
 .signup-label2 {
@@ -115,7 +115,7 @@
   font-size: 18px;
   color: #8A8B8C;
   margin-left: 3rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0.75rem;
 }
 .signup-label4 {
   font-family: 'BricolageGrotesque-Bold', sans-serif;
@@ -139,7 +139,7 @@
   font-size: 18px;
   color: #A6A6A6;
   margin-left: 3rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .signup-next-button {
@@ -153,6 +153,7 @@
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   align-self: flex-start;
   margin-left: 9rem;
+  margin-top: 0.5rem;
   display: block;
 }
 
@@ -207,6 +208,16 @@
   font-size: 14px;
   color: #FF5315;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
+}
+
+.error-fields {
+  
+  font-size: 14px;
+  color: red;
+  font-family: 'BricolageGrotesque-Bold', sans-serif;
+  margin-left: 3rem;
+  margin-bottom: 2rem;
+  margin-top: 0rem;
 }
 
 @media (max-width: 768px) {

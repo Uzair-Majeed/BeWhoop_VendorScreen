@@ -54,6 +54,14 @@
   color: #F5F6FA;
 }
 
+.error-fields {
+  
+  font-size: 14px;
+  color: red !important;
+  font-family: 'BricolageGrotesque-Bold', sans-serif;
+  margin-left: 0rem !important;
+  margin-top: 0rem;
+}
 
 .vendor-info {
   width: 100%;

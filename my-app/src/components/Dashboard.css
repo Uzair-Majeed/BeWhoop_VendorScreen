@@ -24,7 +24,7 @@
 }
 .dashboard-container {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
 }
 
@@ -34,7 +34,9 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  overflow-y: auto;
+  overflow-y: auto;      /* scrolls when needed */
+  height: 100%;          /* full height inside parent */
+  max-height: 100vh;  
 }
 
 .header {
