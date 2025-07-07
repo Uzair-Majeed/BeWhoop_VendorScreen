@@ -27,14 +27,14 @@ function Sidebar() {
             <a>Messages</a>
           </li>
           <li className={`nav-item ${isActive('/MyProfile') ? 'active' : ''}`} onClick={() => navigate('/MyProfile')}>
-            <img src={personLogo} alt="Person" className="nav-icon" />
-            <a>My Profile</a>
-          </li>
-          <li className={`nav-item ${isActive('/ViewProfile') ? 'active' : ''}`} onClick={() => navigate('/ViewProfile')}>
-            <img src={dot} alt="Dot" className="dot-icon" />
-            <a>View Profile</a>
-          </li>
-          <li className={`nav-item ${isActive('/EditProfile') ? 'active' : ''}`} onClick={() => navigate('/EditProfile')}>
+  <img src={personLogo} alt="Person" className="nav-icon" />
+  <a>My Profile</a>
+</li>
+<li className={`nav-item ${isActive('/MyProfile') ? 'active' : ''}`} onClick={() => navigate('/MyProfile')}>
+  <img src={dot} alt="Dot" className="dot-icon" />
+  <a>View Profile</a>
+</li>
+          <li className={`nav-item ${isActive('/EditProfile') || isActive('/EditServices') || isActive('/EditPortfolio') ? 'active' : ''}`} onClick={() => navigate('/EditProfile')}>
             <img src={dot} alt="Dot" className="dot-icon" />
             <a>Edit Profile</a>
           </li>

@@ -1,3 +1,4 @@
+
 @font-face {
     font-family: 'BricolageGrotesque-Medium';
     src: url('../assets/BricolageGrotesque-Medium.ttf') format('truetype');
@@ -9,28 +10,36 @@
     src: url('../assets/BricolageGrotesque-Bold.ttf') format('truetype');
     font-weight: normal;
 }
-.vendor-card {
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+.vp-container {
   display: flex;
   height: 100vh;
   width: 100%;
 }
 
-
-.left-bg {
-  position: relative;
-  width: 80% !important;
+.vp-left {
+  width: 50% !important;
   height: 100vh;
   background-size: cover;
   background-position: center;
-  border-radius: 0 !important;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  padding-bottom: 0; 
 }
 
-.text-group {
+.vp-text-group {
   margin-bottom: 3rem;
   text-align: center;
   display: flex;
@@ -38,99 +47,78 @@
   align-items: center;
 }
 
-.text-group h1 {
+.vp-text-group h1 {
   font-family: 'BricolageGrotesque-Medium', sans-serif;
   font-size: 32px;
   margin-bottom: 0.5rem;
   color: #F5F6FA;
 }
 
-.text-group p {
+.vp-text-group p {
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   font-size: 14px;
-  margin-left: 0.5rem;
   max-width: 80%;
   text-align: center;
   color: #F5F6FA;
 }
 
-.error-fields {
-  
-  font-size: 14px;
-  color: red !important;
-  font-family: 'BricolageGrotesque-Bold', sans-serif;
-  margin-left: 0rem !important;
-  margin-top: 0rem;
-}
-
-.vendor-info {
-  width: 100%;
+.vp-info {
+  width: 50% !important;
   padding: 4rem;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  border-radius : 20px;
+  border-radius: 20px;
 }
 
-.vendor-info h1 {
+.vp-info h1 {
   font-family: 'BricolageGrotesque-Medium', sans-serif;
   font-size: 32px;
   margin-bottom: 1rem;
 }
 
-.vendor-info p {
+.vp-info p {
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   font-size: 14px;
   color: #060606;
   margin-bottom: 2rem;
 }
 
-.label {
-  margin-top:60px;
+.vp-label1,
+.vp-label2 {
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   font-size: 24px;
   color: #060606;
+  margin-top: 60px;
   margin-bottom: 2rem;
 }
-.upload-circle {
- align-self: flex-start;
+
+.vp-upload {
+  align-self: flex-start;
   width: 150px;
   height: 600px;
-  background-image: url('../assets/UploadPic.png');
-  background-size: contain;   
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  border-radius: 50%;         
+  border-radius: 50%;
   cursor: pointer;
 }
 
-
-.label2 {
-  margin-top:60px;
-  font-family: 'BricolageGrotesque-Bold', sans-serif;
-  font-size: 24px;
-  color: #060606;
-  margin-bottom: 2rem;
-}
-
-.description-input {
-  width: 80%;
+.vp-description-input {
+  width: 70%;
   height: 600px;
-  padding: 0.75rem ;
+  padding: 0.75rem;
   border-radius: 8px;
   background-color: #F5F6FA;
   border: 1px solid #D5D5D5;
   resize: none;
-  margin-bottom: 1.5rem;
-
-  
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   font-size: 18px;
   color: #A6A6A6;
   margin-bottom: 2rem;
 }
 
-.next-button {
+.vp-next-button {
   background-color: #BE0000;
   color: white;
   padding: 1rem 8rem;
@@ -139,67 +127,73 @@
   font-size: 1rem;
   cursor: pointer;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
-  align-self: flex-end;            
+  align-self: flex-end;
   margin-top: 2rem;
-
   margin-left: auto;
 }
 
-.next-button:hover {
+.vp-next-button:hover {
   background-color: #df4545;
 }
 
+.vp-error {
+  font-size: 14px;
+  color: red !important;
+  font-family: 'BricolageGrotesque-Bold', sans-serif;
+}
 
+/* Responsive Styles */
 @media (max-width: 768px) {
-  .vendor-card {
-    flex-direction: column; 
+  .vp-container {
+    flex-direction: column;
     height: auto;
-
   }
 
-  .left-bg {
+  .vp-left {
     width: 100%;
     height: 30vh;
-    border-radius: 0;
   }
-  .vendor-info {
+
+  .vp-info {
     width: auto;
     padding: 2rem;
     border-radius: 0 0 20px 20px;
   }
 
-  .vendor-info h1 {
+  .vp-info h1 {
     font-size: 24px;
     text-align: center;
   }
 
-  .vendor-info p {
+  .vp-info p {
     font-size: 13px;
     text-align: center;
   }
 
-  .label, .label2 {
+  .vp-label1,
+  .vp-label2 {
     font-size: 20px;
     margin-top: 30px;
     margin-bottom: 1rem;
   }
 
-  .upload-circle {
+  .vp-upload {
     width: 120px;
     height: 120px;
     align-self: center;
   }
 
-  .description-input {
+  .vp-description-input {
     width: 100%;
     height: 150px;
     font-size: 16px;
   }
 
-  .next-button {
+  .vp-next-button {
     padding: 0.75rem 2.5rem;
     font-size: 0.95rem;
     border-radius: 20px;
     align-self: center;
+    margin-left: 0;
   }
 }

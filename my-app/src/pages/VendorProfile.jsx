@@ -1,7 +1,7 @@
 import { useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { VendorContext } from '../contexts/VendorContext.jsx';
-import './VendorProfile.css';
+import '../styles/VendorProfile.css';
 import bg from '../assets/bg-pic.png';
 import defaultImage from '../assets/UploadPic.png';
 
@@ -10,7 +10,6 @@ function VendorProfile() {
   const [error, setError] = useState('');
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
-
   const { vendorData, setVendorData } = useContext(VendorContext);
 
   const handleUploadClick = () => {
@@ -31,9 +30,8 @@ function VendorProfile() {
   };
 
   const handleNext = () => {
-    const description = document.querySelector('.description-input').value.trim();
+    const description = document.querySelector('.vp-description-input').value.trim();
 
-    // Error Handling
     if (!vendorData.profileImageFile) {
       setError('Please upload a profile picture.');
       return;
@@ -54,25 +52,23 @@ function VendorProfile() {
   };
 
   return (
-    <div className="vendor-card">
-      <div className="left-bg" style={{ backgroundImage: `url(${bg})` }}>
-        <div className="text-group">
+    <div className="vp-container">
+      <div className="vp-left" style={{ backgroundImage: `url(${bg})` }}>
+        <div className="vp-text-group">
           <h1>Get A Vendor Profile</h1>
           <p>Reference site about Lorem Ipsum, giving information on its origins, as well.</p>
         </div>
       </div>
 
-      <div className="vendor-info">
+      <div className="vp-info">
         <h1>Let's set things up for you.</h1>
         <p>Share your vision, and we'll help make it real.</p>
 
-        <label className="label">Add Profile Photo</label>
+        <label className="vp-label1">Add Profile Photo</label>
         <div
-          className="upload-circle"
+          className="vp-upload"
           onClick={handleUploadClick}
-          style={{
-            backgroundImage: `url(${profilePreview || defaultImage})`,
-          }}
+          style={{ backgroundImage: `url(${profilePreview || defaultImage})` }}
         >
           <input
             type="file"
@@ -83,12 +79,12 @@ function VendorProfile() {
           />
         </div>
 
-        <label className="label2">Add Description</label>
-        <textarea className="description-input" placeholder="Write here..." />
+        <label className="vp-label2">Add Description</label>
+        <textarea className="vp-description-input" placeholder="Write here..." />
 
-        {error && <p className="error-fields">{error}</p>}
+        {error && <p className="vp-error">{error}</p>}
 
-        <button className="next-button" onClick={handleNext}>
+        <button className="vp-next-button" onClick={handleNext}>
           Next
         </button>
       </div>

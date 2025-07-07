@@ -1,4 +1,3 @@
-
 @font-face {
     font-family: 'BricolageGrotesque-Medium';
     src: url('../assets/BricolageGrotesque-Medium.ttf') format('truetype');
@@ -10,14 +9,27 @@
     src: url('../assets/BricolageGrotesque-Bold.ttf') format('truetype');
     font-weight: normal;
 }
-.vendor-card {
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.vendorsetup-card {
   display: flex;
   width: 100%;
 }
 
-.left-bg {
+.vendorsetup-left-bg {
   position: relative;
-  width: 80% !important;
+  width: 50% !important;
   height: 100vh;
   background-size: cover;
   background-position: center;
@@ -28,7 +40,7 @@
   padding-bottom: 0; 
 }
 
-.text-group {
+.vendorsetup-text-group {
   margin-bottom: 3rem;
   text-align: center;
   display: flex;
@@ -36,14 +48,14 @@
   align-items: center;
 }
 
-.text-group h1 {
+.vendorsetup-text-group h1 {
   font-family: 'BricolageGrotesque-Medium', sans-serif;
   font-size: 32px;
   margin-bottom: 0.5rem;
   color: #060606 !important;
 }
 
-.text-group p {
+.vendorsetup-text-group p {
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   font-size: 14px;
   margin-left: 0.5rem;
@@ -52,69 +64,66 @@
   color: #060606 !important;
 }
 
-
-.vendor-info {
-  width: 100%;
-  padding: 4rem;
+.vendorsetup-info {
+  width: 50% !important;
+  padding: 3rem;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
+  align-items: flex-start !important;
+  margin-left: 4rem;
   border-radius : 20px;
 }
 
-
-.label1 {
-  margin-top:60px;
+.vendorsetup-label1 {
+  margin-top:30px;
   margin-left:0 !important;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
-  font-size: 24px;
+  font-size: 24px !important;
   color: #060606;
   margin-bottom: 2rem;
 }
 
-
-
-.label3 {
+.vendorsetup-label3 {
   margin-top:15px;
   margin-left:0 !important;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
-  font-size: 24px;
+  font-size: 24px!important;
   color: #060606 !important;
   margin-bottom: 2rem;
 }
 
-
-.select-input{
-    width: 81%;
-    padding: 0.75rem ;
-    border-radius: 8px;
-    background-color: #F5F6FA;
-    border: 1px solid #D5D5D5;
-    margin-bottom: 1.5rem;
-    
-    
-    font-family: 'BricolageGrotesque-Bold', sans-serif;
-    font-size: 18px;
-    color: #A6A6A6;
-    margin-bottom: 2rem;
+.vendorsetup-select-input {
+  margin-top: 1rem;
+  width: 71% !important;
+  padding: 0.75rem ;
+  border-radius: 8px;
+  background-color: #F5F6FA;
+  border: 1px solid #D5D5D5;
+  margin-bottom: 1.5rem;
+  font-family: 'BricolageGrotesque-Bold', sans-serif;
+  font-size: 18px;
+  color: #A6A6A6;
+  margin-bottom: 1rem;
 }
-.simple-input {
-  width: 78.5%;
+
+.vendorsetup-simple-input {
+  width: 71% !important;
   padding: 0.75rem ;
   border-radius: 8px;
   background-color: #F5F6FA;
   border: 1px solid #D5D5D5;
   resize: none;
   margin-bottom: 1.5rem;
-
-  
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   font-size: 18px;
   color: #A6A6A6;
   margin-bottom: 2rem;
 }
-.text-container {
-  width: 80%;
+
+.vendorsetup-text-container {
+  width: 70% !important;
+  margin-top: 1rem;
   height: 150px;
   padding: 0.75rem;
   border-radius: 8px;
@@ -126,46 +135,7 @@
   gap: 1rem;
 }
 
-.events {
-  width: 100%;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 8px;
-  background-color: #F5F6FA;
-  font-family: 'BricolageGrotesque-Bold', sans-serif;
-  font-size: 18px;
-  color: #A6A6A6;
-  box-sizing: border-box;
-}
-
-
-.events:focus {
-  outline: none;
-  border: none;
-}
-
-
-.price-range {
-  display: flex;
-  gap: 1rem; 
-  width: 100%;
-}
-
-.price-range .input-range {
-  width: 30%;
-  padding: 0.75rem ;
-  border-radius: 8px;
-  background-color: #F5F6FA;
-  border: 1px solid #D5D5D5;
-  resize: none;
-  margin-bottom: 1.5rem;
-
-  
-  font-family: 'BricolageGrotesque-Bold', sans-serif;
-  font-size: 18px;
-  color: #A6A6A6;
-}
-.events {
+.vendorsetup-events {
   width: 100%;
   padding: 0.75rem;
   border-radius: 8px;
@@ -178,14 +148,19 @@
   margin-bottom: 1rem;
 }
 
-.eventsAdded {
+.vendorsetup-events:focus {
+  outline: none;
+  border: none;
+}
+
+.vendorsetup-eventsAdded {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 10px;
 }
 
-.event-chip {
+.vendorsetup-event-chip {
   background-color: #F94200;
   border-radius: 20px;
   padding: 6px 12px;
@@ -196,7 +171,7 @@
   align-items: center;
 }
 
-.remove-btn {
+.vendorsetup-remove-btn {
   background: none;
   border: none;
   margin-left: 8px;
@@ -206,7 +181,7 @@
   padding: 0;
 }
 
-.available-events {
+.vendorsetup-available-events {
   display: flex;
   gap: 10px;
   margin-top: 10px;
@@ -214,7 +189,7 @@
   margin-bottom: 50px !important;
 }
 
-.add-chip {
+.vendorsetup-add-chip {
   background-color: #F5F6FA;
   border: 1px #D5D5D5;
   color: #8F8F8F;
@@ -226,8 +201,27 @@
   transition: background-color 0.2s ease;
 }
 
+.vendorsetup-price-range {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem; 
+  width: 60% !important;
+}
 
-.next-button {
+.vendorsetup-price-range .vendorsetup-input-range {
+  width: 50%;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  background-color: #F5F6FA;
+  border: 1px solid #D5D5D5;
+  resize: none;
+  margin-bottom: 1.5rem;
+  font-family: 'BricolageGrotesque-Bold', sans-serif;
+  font-size: 18px;
+  color: #A6A6A6;
+}
+
+.vendorsetup-next-button {
   background-color: #BE0000;
   color: white;
   padding: 1rem 8rem;
@@ -238,16 +232,14 @@
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   align-self: flex-end !important;            
   margin-top: 1rem !important;  
-
   margin-left: auto;
 }
-.next-button:hover {
+
+.vendorsetup-next-button:hover {
   background-color: #df4545;
 }
 
-
-.error-fields {
-  
+.vendorsetup-error-fields {
   font-size: 14px;
   color: red !important;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
@@ -256,70 +248,70 @@
 }
 
 @media (max-width: 768px) {
-  .vendor-card {
+  .vendorsetup-card {
     flex-direction: column;
   }
 
-  .left-bg {
+  .vendorsetup-left-bg {
     width: 100%;
     height: 30vh;
     border-radius: 20px 20px 0 0;
     padding-bottom: 1rem;
   }
 
-  .text-group h1 {
+  .vendorsetup-text-group h1 {
     font-size: 24px;
   }
 
-  .text-group p {
+  .vendorsetup-text-group p {
     font-size: 13px;
     max-width: 90%;
   }
 
-  .vendor-info {
+  .vendorsetup-info {
     width: 100%;
     padding: 2rem;
     border-radius: 0 0 20px 20px;
   }
 
-  .label1,
-  .label2 {
+  .vendorsetup-label1,
+  .vendorsetup-label2 {
     font-size: 20px;
     margin-top: 30px;
     margin-bottom: 1rem;
   }
 
-  .text-container {
+  .vendorsetup-text-container {
     width: 100%;
     height: auto;
     padding: 1rem;
   }
 
-  .events {
+  .vendorsetup-events {
     width: 100%;
     font-size: 16px;
   }
 
-  .eventsAdded {
+  .vendorsetup-eventsAdded {
     gap: 8px;
   }
 
-  .select-input,
-  .simple-input {
+  .vendorsetup-select-input,
+  .vendorsetup-simple-input {
     width: 100%;
     font-size: 16px;
   }
 
-  .price-range {
+  .vendorsetup-price-range {
     flex-direction: column;
     gap: 0.75rem;
   }
 
-  .price-range .input-range {
+  .vendorsetup-price-range .vendorsetup-input-range {
     width: 100%;
   }
 
-  .next-button {
+  .vendorsetup-next-button {
     padding: 0.75rem 2rem;
     font-size: 0.95rem;
     border-radius: 20px;
@@ -327,14 +319,13 @@
     margin-left: 0;
   }
 
-  .event-chip {
+  .vendorsetup-event-chip {
     font-size: 13px;
     padding: 5px 10px;
   }
 
-  .add-chip {
+  .vendorsetup-add-chip {
     font-size: 13px;
     padding: 5px 10px;
   }
 }
-

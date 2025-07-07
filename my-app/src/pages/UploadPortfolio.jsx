@@ -1,8 +1,8 @@
 import { useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './UploadPortfolio.css';
+import '../styles/UploadPortfolio.css';
 import Bg from '../assets/UploadPortfolio.png';
-import FileUpload from './FileUpload.jsx';
+import FileUpload from '../additional_components/FileUpload.jsx';
 import Trash from '../assets/Trash.png';
 import { VendorContext } from '../contexts/VendorContext.jsx';
 

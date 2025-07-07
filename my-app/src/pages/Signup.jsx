@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Signup.css';
+import '../styles/Signup.css';
 import signup from '../assets/Signup-bg.png';
 import googleIcon from '../assets/Google-Icon.png';
 import fbIcon from '../assets/FB-Icon.png';

@@ -18,8 +18,7 @@
 }
 
 .signup-left-bg {
-  position: relative;
-  width: 100% !important;
+  width: 53%;
   border-radius: 0 !important;
   height: 100vh;
   background-size: cover;
@@ -56,11 +55,13 @@
 }
 
 .signup-vendor-info {
-  width: 100%;
-  padding: 4rem;
+  width: 47%;
+  padding: 6rem;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: hidden;
   border-radius: 20px;
 }
 
@@ -69,42 +70,43 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start; /* change from center */
-  margin-left: 10rem;
+  margin-left: 3rem;
 }
 
 
 .signup-title-group h1 {
-  font-family: 'BricolageGrotesque-Medium', sans-serif;
+  font-family: 'BricolageGrotesque-Bold', sans-serif;
   font-size: 32px;
   color: #060606 !important;
 }
 
 .signup-title-group p {
-  font-family: 'BricolageGrotesque-Bold', sans-serif;
+  font-family: 'BricolageGrotesque-Medium', sans-serif;
   font-size: 14px;
   max-width: 80%;
   text-align: center;
-  color: #060606 !important;
+  color: #8A8B8C !important;
+  margin-bottom: 2rem;
 }
 
 .signup-password-container {
-  width: 68%;
+  width: 77%;
   display: flex;
   justify-content: space-between;
 }
 
 .signup-label1 {
   font-family: 'BricolageGrotesque-Bold', sans-serif;
-  font-size: 18px;
+  font-size: 14px;
   color: #202224;
-  margin: 0.5rem 0 1rem 3rem;
+  margin: 0.5rem 0 0.5rem 3rem;
 }
 
 .signup-label2 {
   font-family: 'BricolageGrotesque-Bold', sans-serif;
-  font-size: 18px;
+  font-size: 14px;
   color: #8A8B8C;
-  margin: 0 0 2rem 3rem;
+  margin: 0.5rem 0 0.5rem 3rem;
 }
 
 .signup-label3 {
@@ -112,7 +114,7 @@
   align-items: center;
   gap: 8px;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
-  font-size: 18px;
+  font-size: 14px;
   color: #8A8B8C;
   margin-left: 3rem;
   margin-bottom: 0.75rem;
@@ -125,17 +127,17 @@
   text-align: left;
   width: 100%;
   display: block;
-  margin: 20px 0 0 11rem; /* top, right, bottom, left */
+  margin: 20px 0 0 9rem; /* top, right, bottom, left */
 }
 
 
 .signup-simple-input {
-  width: 60.5%;
+  width: 70.5%;
   padding: 1rem;
   border-radius: 8px;
   background-color: #F5F6FA;
   border: 1px solid #D5D5D5;
-  font-family: 'BricolageGrotesque-Bold', sans-serif;
+  font-family: 'BricolageGrotesque-Medium', sans-serif;
   font-size: 18px;
   color: #A6A6A6;
   margin-left: 3rem;
@@ -152,7 +154,7 @@
   cursor: pointer;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
   align-self: flex-start;
-  margin-left: 9rem;
+  margin-left: 7rem;
   margin-top: 0.5rem;
   display: block;
 }
@@ -165,7 +167,7 @@
   display: flex;
   flex-direction: column;
   align-self: flex-start;
-  margin-left: 13rem;
+  margin-left: 11rem;
   margin-top: 0.5rem;
   gap: 10px;
 }
@@ -215,7 +217,7 @@
   font-size: 14px;
   color: red;
   font-family: 'BricolageGrotesque-Bold', sans-serif;
-  margin-left: 3rem;
+  margin-left: 3rem !important;
   margin-bottom: 2rem;
   margin-top: 0rem;
 }
