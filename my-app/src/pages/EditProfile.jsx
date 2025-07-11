@@ -8,13 +8,12 @@ import { useNavigate } from 'react-router-dom';
 
 function EditProfile() {
   const { vendorData, setVendorData } = useContext(VendorContext);
-  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const formRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   const [description, setDescription] = useState(vendorData?.description || '');
   const [profilePreview, setProfilePreview] = useState(vendorData?.profileImage || null);
-
-  const navigate = useNavigate();
-  const fileInputRef = useRef(null);
 
   const handleUploadClick = () => fileInputRef.current.click();
 
@@ -31,13 +30,36 @@ function EditProfile() {
     }
   };
 
-  const handleSave = async () => {
+  const handleDescriptionChange = (e) => {
+    const value = e.target.value;
+    setDescription(value);
+    if (value === '') {
+      e.target.setCustomValidity('Description cannot be empty if changed.');
+    } else {
+      e.target.setCustomValidity('');
+    }
+  };
+
+  const handleSave = (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    // Check HTML5 form validity
+    if (!formRef.current.checkValidity()) {
+      formRef.current.reportValidity(); // Show browser validation messages
+      return;
+    }
+
+    // Validate profile picture
+    if (!vendorData.profileImage && !profilePreview) {
+      alert('Please select a profile picture.');
+      return;
+    }
+
     const updatedData = {
       ...vendorData,
       description: description || vendorData.description,
     };
 
-    setError('');
     setVendorData(updatedData);
     navigate('/EditServices');
   };
@@ -48,38 +70,38 @@ function EditProfile() {
       <div className="editprofile-main-content">
         <Header />
         <div className="editprofile-scrollable">
-          <div className="editprofile-form-wrapper">
-            <label className="editprofile-label1">Edit Profile</label>
-            <div
-              className="editprofile-upload-circle"
-              onClick={handleUploadClick}
-              style={{ backgroundImage: `url(${profilePreview || defaultImage})` }}
-            >
-              <input
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                style={{ display: 'none' }}
+          <form ref={formRef} onSubmit={handleSave}>
+            <div className="editprofile-form-wrapper">
+              <label className="editprofile-label1">Edit Profile</label>
+              <div
+                className="editprofile-upload-circle"
+                onClick={handleUploadClick}
+                style={{ backgroundImage: `url(${profilePreview || defaultImage})` }}
+              >
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  style={{ display: 'none' }}
+                />
+              </div>
+
+              <label className="editprofile-label2">Edit Description</label>
+              <textarea
+                className="editprofile-description-input"
+                value={description}
+                onChange={handleDescriptionChange}
+                placeholder="Write here..."
               />
             </div>
 
-            <label className="editprofile-label2">Edit Description</label>
-            <textarea
-              className="editprofile-description-input"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Write here..."
-            />
-          </div>
-
-          {error && <p className="editprofile-error-fields">{error}</p>}
-
-          <div className="editprofile-save-button-container">
-            <button className="editprofile-save-button" onClick={handleSave}>
-              Save
-            </button>
-          </div>
+            <div className="editprofile-save-button-container">
+              <button type="submit" className="editprofile-save-button">
+                Save
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

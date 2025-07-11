@@ -6,7 +6,6 @@ import Sidebar from '../additional_components/Sidebar';
 
 function Dashboard() {
   const { vendorData } = useContext(VendorContext);
-
   return (
     <div className="dash-container">
       <Sidebar />

@@ -6,12 +6,14 @@ import googleIcon from '../assets/Google-Icon.png';
 import fbIcon from '../assets/FB-Icon.png';
 import whIcon from '../assets/WH-Icon.png';
 import { VendorContext } from '../contexts/VendorContext.jsx';
+import TOS from '../additional_components/TOS.jsx';
 
-function Signup (){
+function Signup() {
   const [realPassword, setRealPassword] = useState('');
   const [maskedPassword, setMaskedPassword] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [error, setError] = useState('');
+  const [showTOS, setShowTOS] = useState(false);
   const { setVendorData } = useContext(VendorContext);
   const navigate = useNavigate();
 
@@ -19,9 +21,9 @@ function Signup (){
     const input = e.target.value;
     if (input.length > maskedPassword.length) {
       const newChar = input[input.length - 1];
-      setRealPassword(prev => prev + newChar);
+      setRealPassword((prev) => prev + newChar);
     } else {
-      setRealPassword(prev => prev.slice(0, -1));
+      setRealPassword((prev) => prev.slice(0, -1));
     }
     setMaskedPassword('●'.repeat(input.length));
   };
@@ -37,11 +39,11 @@ function Signup (){
       return;
     }
 
-    setVendorData(prev => ({
+    setVendorData((prev) => ({
       ...prev,
       fullName,
       email,
-      password: realPassword
+      password: realPassword,
     }));
 
     navigate('/VendorProfile');
@@ -100,18 +102,26 @@ function Signup (){
           <input
             type="checkbox"
             checked={termsAccepted}
-            onChange={(e) => setTermsAccepted(e.target.checked)}              
+            onChange={(e) => setTermsAccepted(e.target.checked)}
             required
-          /><a href="/term-and-conditions" style={{textDecoration:"underline",color:'black'}}> I accept terms and conditions</a>
+          />
+          <a
+            onClick={() => setShowTOS(true)}
+            style={{ textDecoration: 'underline', color: 'black', cursor: 'pointer' }}
+          >
+            I accept terms and conditions
+          </a>
         </label>
 
+        {error && <p className="signup-error-fields">{error}</p>}
 
         <button type="submit" className="signup-next-button">
           SignUp
         </button>
 
-        <label className="signup-label4" onClick={() => navigate("/")}>
-          Already have an account? <span>Signup</span><br />
+        <label className="signup-label4" onClick={() => navigate('/')}>
+          Already have an account? <span>Signup</span>
+          <br />
         </label>
 
         {/* Social Logins */}
@@ -131,8 +141,10 @@ function Signup (){
           </div>
         </div>
       </form>
+
+      {showTOS && <TOS onClose={() => setShowTOS(false)} />}
     </div>
   );
-};
+}
 
 export default Signup;
