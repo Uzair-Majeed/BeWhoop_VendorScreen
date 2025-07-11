@@ -4,8 +4,7 @@ export const VendorContext = createContext();
 
 export const VendorProvider = ({ children }) => {
   const [vendorData, setVendorData] = useState({
-    firstName: '',
-    lastName:'',
+    fullName: '',
     email : '',
     profileImage: null,
     description: '',

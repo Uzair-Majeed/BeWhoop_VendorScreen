@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState } from 'react'; 
 import { VendorContext } from '../contexts/VendorContext.jsx';
 import '../styles/EditProfile.css';
 import Header from '../additional_components/Header';
@@ -29,19 +29,18 @@ function EditPortfolio() {
     setVendorData(updatedData);
 
     const payload = {
-      fullName: `${vendorData.firstName} ${vendorData.lastName}`,
-      email: vendorData.email,
-      phone: vendorData.phone || '0000000000',
-      services: vendorData.services,
-      budgetRange: `$${vendorData.minPrice}-$${vendorData.maxPrice}`,
-      city: vendorData.location,
-      socialProof: vendorData.mapLink || '',
+      services: updatedData.services,
+      budgetRange: `$${updatedData.minPrice}-$${updatedData.maxPrice}`,
+      city: updatedData.location,
+      socialProof: updatedData.mapLink || '',
     };
 
     try {
+      console.log(payload)
       const token = localStorage.getItem('token');
+      console.log(token)
       const response = await fetch(`${baseURL}/onboarding/vendors`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -54,7 +53,7 @@ function EditPortfolio() {
       if (result.status === 'success') {
         navigate('/EditProfile');
       } else {
-        setError(result.message || 'Error saving data.');
+        setError(result.error || 'Error saving data.');
       }
     } catch (error) {
       setError('Something went wrong. Please try again.');

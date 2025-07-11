@@ -7,8 +7,12 @@ import { VendorContext } from '../contexts/VendorContext.jsx';
 function VendorSetup() {
   const [eventInput, setEventInput] = useState('');
   const [events, setEvents] = useState([]);
-  const [availableEvents, setavailableEvents] = useState(["Photography", "Catering", "Videography"]);
-  const [error, setError] = useState('');
+  const [availableEvents, setavailableEvents] = useState([
+    'Photography',
+    'Catering',
+    'Videography',
+  ]);
+
   const { vendorData, setVendorData } = useContext(VendorContext);
   const baseURL = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
@@ -25,155 +29,173 @@ function VendorSetup() {
   };
 
   const removeEvent = (index) => {
-    const removedEvent = events[index];
-    const updatedEvents = events.filter((_, i) => i !== index);
-    setEvents(updatedEvents);
-
-    const originalAvailable = ["Photography", "Catering", "Videography"];
-    if (originalAvailable.includes(removedEvent)) {
-      setavailableEvents(prev => [...prev, removedEvent]);
+    const removed = events[index];
+    setEvents(events.filter((_, i) => i !== index));
+    if (['Photography', 'Catering', 'Videography'].includes(removed)) {
+      setavailableEvents((prev) => [...prev, removed]);
     }
   };
 
-  const addAvailableEvent = (eventName) => {
-    if (!events.includes(eventName)) {
-      setEvents([...events, eventName]);
-      setavailableEvents(availableEvents.filter(ev => ev !== eventName));
+  const addAvailableEvent = (name) => {
+    if (!events.includes(name)) {
+      setEvents([...events, name]);
+      setavailableEvents((prev) => prev.filter((ev) => ev !== name));
     }
   };
 
-  const handleNext = async () => {
-    const selectedCity = document.querySelector('.vendorsetup-select-input').value;
-    const mapLink = document.querySelector('.vendorsetup-simple-input').value;
-    const minPrice = document.getElementById('1').value;
-    const maxPrice = document.getElementById('2').value;
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+    const form = e.target;
 
-    if (events.length === 0) return setError('Please add at least one service you provide.');
-    if (!mapLink.trim()) return setError('Please provide your Google Maps location link.');
-    if (selectedCity === 'City') return setError('Please select a valid city.');
-    if (!minPrice || !maxPrice || isNaN(minPrice) || isNaN(maxPrice)) return setError('Please enter valid numbers for price range.');
-    if (parseFloat(minPrice) > parseFloat(maxPrice)) return setError('Minimum price cannot be greater than maximum price.');
-
-    setError('');
+    const city = form.city.value;
+    const mapLink = form.mapLink.value.trim();
+    const minPrice = form.minPrice.value;
+    const maxPrice = form.maxPrice.value;
     const budgetRange = `$${minPrice}-$${maxPrice}`;
 
-    setVendorData((prevData) => ({
-      ...prevData,
+    setVendorData((prev) => ({
+      ...prev,
       services: events,
       mapLink,
-      budgetRange,
       minPrice,
       maxPrice,
-      location: selectedCity
+      location: city,
     }));
 
     try {
-      const response = await fetch(`${baseURL}/onboarding/vendors`, {
+      const res = await fetch(`${baseURL}/onboarding/vendors`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          fullName: `${vendorData.firstName} ${vendorData.lastName}`,
+          fullName: `${vendorData.fullName}`,
           email: vendorData.email,
           phone: vendorData.phone || '0000000000',
-          password: vendorData.password,
           services: events,
           budgetRange,
-          city: selectedCity,
+          city,
           socialProof: vendorData.mapLink || '',
+          password: vendorData.password,
         }),
       });
 
-      const result = await response.json();
-      console.log(result);
-
+      const result = await res.json();
       if (result.status === 'success') {
-        console.log('Vendor registered:', result);
-
-        if (result.token) {
-          localStorage.setItem('token', result.token);
-        }
-
+        if (result.token) localStorage.setItem('token', result.token);
         navigate('/UploadPortfolio');
       } else {
-        const message = result.error || 'Registration failed';
-        setError(message);
-
-        if (
-          message.toLowerCase().includes('already exists') ||
-          message.toLowerCase().includes('duplicate') ||
-          message.toLowerCase().includes('already in use')
-        ) {
-          setError('Vendor already exists. Redirecting to signup...');
-          setTimeout(() => {
-            navigate('/');
-          }, 2000);
+        alert(result.error || 'Registration failed');
+        if (/(already exists|duplicate|already in use)/i.test(result.error)) {
+          setTimeout(() => navigate('/'), 2000);
         }
       }
     } catch (err) {
-      console.error('API error:', err);
-      setError('Something went wrong. Please try again.');
+      console.error(err);
+      alert('Something went wrong. Please try again.');
     }
   };
 
   return (
     <div className="vendorsetup-card">
-      <div className="vendorsetup-left-bg" style={{ backgroundImage: `url(${karaokeBg})` }}>
+      <div
+        className="vendorsetup-left-bg"
+        style={{ backgroundImage: `url(${karaokeBg})` }}
+      >
         <div className="vendorsetup-text-group">
           <h1>Get A Vendor Profile</h1>
-          <p>Reference site about Lorem Ipsum, giving information on its origins, as well.</p>
+          <p>Reference site about Lorem Ipsum, giving information on its origins.</p>
         </div>
       </div>
 
-      <div className="vendorsetup-info">
-        <label className="vendorsetup-label1">What type of Services do you provide?</label>
+      <form className="vendorsetup-info" onSubmit={handleSubmit}>
+        <label className="vendorsetup-label1">
+          What type of services do you provide?
+        </label>
         <div className="vendorsetup-text-container">
           <input
             className="vendorsetup-events"
-            placeholder="Type and Press (,) to add Events..."
+            placeholder="Type and press , to add services"
             value={eventInput}
             onChange={(e) => setEventInput(e.target.value)}
             onKeyDown={handleAddEvent}
+            required={events.length === 0}
           />
           <div className="vendorsetup-eventsAdded">
-            {events.map((ev, index) => (
-              <span key={index} className="vendorsetup-event-chip">
+            {events.map((ev, i) => (
+              <span key={i} className="vendorsetup-event-chip">
                 {ev}
-                <button className="vendorsetup-remove-btn" onClick={() => removeEvent(index)}>×</button>
+                <button
+                  type="button"
+                  className="vendorsetup-remove-btn"
+                  onClick={() => removeEvent(i)}
+                >
+                  ×
+                </button>
               </span>
             ))}
           </div>
         </div>
 
         <div className="vendorsetup-available-events">
-          {availableEvents.map((ev, index) => (
-            <span key={index} className="vendorsetup-add-chip" onClick={() => addAvailableEvent(ev)}>
+          {availableEvents.map((ev, i) => (
+            <span
+              key={i}
+              className="vendorsetup-add-chip"
+              onClick={() => addAvailableEvent(ev)}
+            >
               {ev} +
             </span>
           ))}
         </div>
 
-        <label className="vendorsetup-label3">Type Your Location</label>
-        <select className="vendorsetup-select-input" defaultValue="City">
-          <option value="City">City</option>
-          <option value="Islamabad">Islamabad</option>
-          <option value="Lahore">Lahore</option>
-          <option value="Karachi">Karachi</option>
-          <option value="Peshawar">Peshawar</option>
-          <option value="Quetta">Quetta</option>
+        <label className="vendorsetup-label3">Your Location</label>
+        <select
+          name="city"
+          className="vendorsetup-select-input"
+          required
+          defaultValue=""
+        >
+          <option value="" disabled>
+            Select city
+          </option>
+          <option>Islamabad</option>
+          <option>Lahore</option>
+          <option>Karachi</option>
+          <option>Peshawar</option>
+          <option>Quetta</option>
         </select>
 
-        <input className="vendorsetup-simple-input" placeholder="Enter Google Map link here." />
+        <input
+          name="mapLink"
+          className="vendorsetup-simple-input"
+          type="url"
+          placeholder="Google Maps link"
+          required
+        />
 
         <label className="vendorsetup-label3">Price Range</label>
         <div className="vendorsetup-price-range">
-          <input className="vendorsetup-input-range" placeholder="Minimum" id="1" />
-          <input className="vendorsetup-input-range" placeholder="Maximum" id="2" />
+          <input
+            name="minPrice"
+            className="vendorsetup-input-range"
+            placeholder="Minimum"
+            type="number"
+            min="0"
+            required
+          />
+          <input
+            name="maxPrice"
+            className="vendorsetup-input-range"
+            placeholder="Maximum"
+            type="number"
+            min="0"
+            required
+          />
         </div>
 
-        {error && <p className="vendorsetup-error-fields">{error}</p>}
-
-        <button className="vendorsetup-next-button" onClick={handleNext}>Next</button>
-      </div>
+        <button type="submit" className="vendorsetup-next-button">
+          Next
+        </button>
+      </form>
     </div>
   );
 }

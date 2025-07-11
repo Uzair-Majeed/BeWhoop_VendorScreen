@@ -12,7 +12,7 @@ function EditServices() {
   const navigate = useNavigate();
 
   const [location, setLocation] = useState(vendorData?.location || '');
-  const [googleMap, setGoogleMap] = useState(vendorData?.googleMap || '');
+  const [googleMap, setGoogleMap] = useState(vendorData?.mapLink || '');
   const [eventInput, setEventInput] = useState('');
   const [events, setEvents] = useState(
     typeof vendorData?.services === 'string'

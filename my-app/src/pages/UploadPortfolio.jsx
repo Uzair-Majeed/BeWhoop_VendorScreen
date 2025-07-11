@@ -9,7 +9,6 @@ import { VendorContext } from '../contexts/VendorContext.jsx';
 function UpdatePortfolio() {
   const [cnicFront, setCnicFront] = useState(null);
   const [cnicBack, setCnicBack] = useState(null);
-  const [error, setError] = useState('');
   const frontRef = useRef(null);
   const backRef = useRef(null);
   const { vendorData, setVendorData } = useContext(VendorContext);
@@ -19,7 +18,6 @@ function UpdatePortfolio() {
     const file = e.target.files[0];
     if (file && validateFile(file)) {
       setCnicFront(file);
-      setError('');
     }
     e.target.value = '';
   };
@@ -28,7 +26,6 @@ function UpdatePortfolio() {
     const file = e.target.files[0];
     if (file && validateFile(file)) {
       setCnicBack(file);
-      setError('');
     }
     e.target.value = '';
   };
@@ -38,12 +35,12 @@ function UpdatePortfolio() {
     const maxSizeMB = 5;
 
     if (!validTypes.includes(file.type)) {
-      setError('Only PNG, JPG, JPEG or PDF files are allowed.');
+      alert('Only PNG, JPG, JPEG or PDF files are allowed.');
       return false;
     }
 
     if (file.size > maxSizeMB * 1024 * 1024) {
-      setError(`File must be under ${maxSizeMB}MB.`);
+      alert(`File must be under ${maxSizeMB}MB.`);
       return false;
     }
 
@@ -51,16 +48,21 @@ function UpdatePortfolio() {
   };
 
   const handleNext = () => {
-    if (!cnicFront || !cnicBack) {
-      setError('Please upload both front and back of your CNIC.');
+    // 🔍 Check if portfolio data exists in context
+    if (!vendorData.portfolio || vendorData.portfolio.length === 0) {
+      alert('Please upload at least one portfolio file.');
       return;
     }
 
-    setError('');
+    if (!cnicFront || !cnicBack) {
+      alert('Please upload both front and back of your CNIC.');
+      return;
+    }
+
     setVendorData((prevData) => ({
       ...prevData,
-      cnicFront: cnicFront,
-      cnicBack: cnicBack,
+      cnicFront,
+      cnicBack,
     }));
     navigate('/MyProfile');
   };
@@ -144,8 +146,6 @@ function UpdatePortfolio() {
           </div>
         </div>
 
-        {error && <p className="error-fields">{error}</p>}
-
         <button className="update-portfolio-next-button" onClick={handleNext}>
           Next
         </button>
@@ -154,7 +154,7 @@ function UpdatePortfolio() {
   );
 }
 
-//helper functions
+// Helper functions
 function formatFileSize(size) {
   return size > 1024 * 1024
     ? `${(size / (1024 * 1024)).toFixed(2)} MB`

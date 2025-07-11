@@ -19,12 +19,14 @@ function Header() {
       </div>
 
       <div className="header-right">
-        <img src={notificationIcon} alt="Notifications" className="header-icon" />
+
+        {/*<img src={notificationIcon} alt="Notifications" className="header-icon" />
 
         <div className="language-selector">
           <img src={flag} alt="Flag" className="flag-icon" />
           <span>English</span>
-        </div>
+        </div>  */}
+        
 
         <div className="user-info">
           <img
@@ -32,7 +34,7 @@ function Header() {
             alt="User"
             className="user-photo"
           />
-          <span className="user-name">Uzair</span>
+          <span className="user-name">{vendorData.fullName || 'John Doe'}</span>
         </div>
       </div>
     </header>

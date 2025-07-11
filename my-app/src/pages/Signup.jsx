@@ -7,90 +7,78 @@ import fbIcon from '../assets/FB-Icon.png';
 import whIcon from '../assets/WH-Icon.png';
 import { VendorContext } from '../contexts/VendorContext.jsx';
 
-function Signup() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+function Signup (){
+  const [realPassword, setRealPassword] = useState('');
+  const [maskedPassword, setMaskedPassword] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [error, setError] = useState('');
   const { setVendorData } = useContext(VendorContext);
   const navigate = useNavigate();
 
-  const validateEmail = (email) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-  const handleSignup = () => {
-    if (!firstName || !lastName || !email || !password) {
-      setError('Please fill out all fields');
-      return;
+  const handlePasswordChange = (e) => {
+    const input = e.target.value;
+    if (input.length > maskedPassword.length) {
+      const newChar = input[input.length - 1];
+      setRealPassword(prev => prev + newChar);
+    } else {
+      setRealPassword(prev => prev.slice(0, -1));
     }
+    setMaskedPassword('●'.repeat(input.length));
+  };
 
-    if (!validateEmail(email)) {
-      setError('Please enter a valid email address');
-      return;
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const fullName = form.fullName.value;
+    const email = form.email.value;
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters');
-      return;
-    }
-    
     if (!termsAccepted) {
       setError('You must accept the terms and conditions');
-    return;
+      return;
     }
 
-    const FullName=firstName + lastName;
-    setError('');
     setVendorData(prev => ({
       ...prev,
-      firstName,
-      lastName,
+      fullName,
       email,
-      password
+      password: realPassword
     }));
-    navigate('/VendorProfile'); 
+
+    navigate('/VendorProfile');
   };
 
   return (
     <div className="signup-vendor-card">
+      {/* Left panel */}
       <div className="signup-left-bg" style={{ backgroundImage: `url(${signup})` }}>
         <div className="signup-text-group">
-          <h1>Connect with vendors</h1>
+          <h1>Connect with Hosts</h1>
           <p>Reference site about Lorem Ipsum, giving information on its origins, as well.</p>
         </div>
       </div>
 
-      <div className="signup-vendor-info">
+      {/* Signup form */}
+      <form className="signup-vendor-info" onSubmit={handleSubmit}>
         <div className="signup-title-group">
           <h1>Join as a Vendor</h1>
-          <p>Create an account to join as a Vendor</p>
+          <p>Create an account to join as a vendor</p>
         </div>
 
-
-        <label className="signup-label1">First Name</label>
+        <label className="signup-label1">Full Name</label>
         <input
+          name="fullName"
           className="signup-simple-input"
-          placeholder="Example: Henna"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-
-        <label className="signup-label1">Last Name</label>
-        <input
-          className="signup-simple-input"
-          placeholder="Example: Adam"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
+          placeholder="Example: Henna Adam"
+          required
         />
 
         <label className="signup-label1">Email</label>
         <input
+          name="email"
+          type="email"
           className="signup-simple-input"
           placeholder="Henna_Adam@gmail.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          required
         />
 
         <div className="signup-password-container">
@@ -99,30 +87,34 @@ function Signup() {
         </div>
 
         <input
+          type="text"
           className="signup-simple-input"
-          placeholder="••••••••••"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          placeholder="● ● ● ● ● ●"
+          value={maskedPassword}
+          onChange={handlePasswordChange}
+          minLength={6}
+          required
         />
 
         <label className="signup-label3">
-          <input type="checkbox" checked={termsAccepted} onChange={(e) => setTermsAccepted(e.target.checked)}
-          /> I accept terms and conditions
+          <input
+            type="checkbox"
+            checked={termsAccepted}
+            onChange={(e) => setTermsAccepted(e.target.checked)}              
+            required
+          /><a href="/term-and-conditions" style={{textDecoration:"underline",color:'black'}}> I accept terms and conditions</a>
         </label>
 
-        
-        {error && <p className="error-fields">{error}</p>}
 
-        <button className="signup-next-button" onClick={handleSignup}>
+        <button type="submit" className="signup-next-button">
           SignUp
         </button>
 
-
-        <label className="signup-label4">
+        <label className="signup-label4" onClick={() => navigate("/")}>
           Already have an account? <span>Signup</span><br />
         </label>
 
+        {/* Social Logins */}
         <div className="signup-social-icons">
           <div className="signup-divider-with-text">
             <span className="signup-line"></span>
@@ -138,9 +130,9 @@ function Signup() {
             <img src={whIcon} alt="whatsapp-icon" />
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
-}
+};
 
 export default Signup;
