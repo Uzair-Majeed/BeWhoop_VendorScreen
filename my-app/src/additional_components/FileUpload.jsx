@@ -1,4 +1,4 @@
-import { useState, useRef,useEffect ,useContext } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import './FileUpload.css';
 import Vector from '../assets/Vector.png';
 import Trash from '../assets/Trash.png';
@@ -15,23 +15,16 @@ function FileUploadSplit() {
     'image/jpg',
     'image/png',
     'video/mp4',
-    'audio/mpeg'
+    'audio/mpeg',
   ];
-  useEffect(() => {
-  if (files.length > 0) {
-    setVendorData((prev) => {
-      const existing = prev.portfolio || [];
-      const unique = files.filter(
-        (file) => !existing.some((f) => f.name === file.name && f.size === file.size)
-      );
-      return {
-        ...prev,
-        portfolio: [...existing, ...unique],
-      };
-    });
-  }
-}, [files]);
 
+  // Sync local files with vendorData.portfolio
+  useEffect(() => {
+    setVendorData((prev) => ({
+      ...prev,
+      portfolio: files.length > 0 ? [...files] : [],
+    }));
+  }, [files]);
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -61,6 +54,20 @@ function FileUploadSplit() {
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
+  };
+
+  const formatFileSize = (size) => {
+    return size > 1024 * 1024
+      ? `${(size / (1024 * 1024)).toFixed(2)} MB`
+      : `${(size / 1024).toFixed(2)} KB`;
+  };
+
+  const getFileType = (type) => {
+    if (type.includes('image')) return type.replace('image/', '');
+    if (type.includes('video')) return 'video';
+    if (type.includes('audio')) return 'audio';
+    if (type.includes('pdf')) return 'PDF';
+    return type;
   };
 
   return (
@@ -116,24 +123,23 @@ function FileUploadSplit() {
                   }}
                 />
               )}
-              {file.name}
-              <span style={{ fontSize: '14px', color: '#666' }}>
-                {file.size > 1024 * 1024
-                  ? `${(file.size / (1024 * 1024)).toFixed(2)} MB, `
-                  : `${(file.size / 1024).toFixed(2)} KB, `}
-                {file.type.replace('image/', '')}
-              </span>
+              <div style={{ flexGrow: 1 }}>
+                <div>{file.name}</div>
+                <div style={{ fontSize: '14px', color: '#666' }}>
+                  {formatFileSize(file.size)}, {getFileType(file.type)}
+                </div>
+              </div>
               <img
                 src={Trash}
-                alt="trash.png"
+                alt="Delete"
                 style={{
                   width: '20px',
                   height: '20px',
                   cursor: 'pointer',
-                  marginLeft: 'auto'
                 }}
                 onClick={() => {
-                  setFiles((prev) => prev.filter((_, i) => i !== index));
+                  const updatedFiles = files.filter((_, i) => i !== index);
+                  setFiles(updatedFiles);
                 }}
               />
             </li>

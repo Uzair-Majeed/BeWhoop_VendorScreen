@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';  // ✅ Import toast
 import '../styles/Signup.css';
 import signup from '../assets/Signup-bg.png';
 import googleIcon from '../assets/Google-Icon.png';
@@ -12,7 +13,6 @@ function Signup() {
   const [realPassword, setRealPassword] = useState('');
   const [maskedPassword, setMaskedPassword] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const [error, setError] = useState('');
   const [showTOS, setShowTOS] = useState(false);
   const { setVendorData } = useContext(VendorContext);
   const navigate = useNavigate();
@@ -35,7 +35,12 @@ function Signup() {
     const email = form.email.value;
 
     if (!termsAccepted) {
-      setError('You must accept the terms and conditions');
+      toast.error('Please accept terms and conditions');
+      return;
+    }
+
+    if (!realPassword || realPassword.length < 6) {
+      toast.error('Password must be at least 6 characters');
       return;
     }
 
@@ -46,12 +51,12 @@ function Signup() {
       password: realPassword,
     }));
 
+    toast.success('Signup successful! Redirecting...');
     navigate('/VendorProfile');
   };
 
   return (
     <div className="signup-vendor-card">
-      {/* Left panel */}
       <div className="signup-left-bg" style={{ backgroundImage: `url(${signup})` }}>
         <div className="signup-text-group">
           <h1>Connect with Hosts</h1>
@@ -59,7 +64,6 @@ function Signup() {
         </div>
       </div>
 
-      {/* Signup form */}
       <form className="signup-vendor-info" onSubmit={handleSubmit}>
         <div className="signup-title-group">
           <h1>Join as a Vendor</h1>
@@ -113,8 +117,6 @@ function Signup() {
           </a>
         </label>
 
-        {error && <p className="signup-error-fields">{error}</p>}
-
         <button type="submit" className="signup-next-button">
           SignUp
         </button>
@@ -124,7 +126,6 @@ function Signup() {
           <br />
         </label>
 
-        {/* Social Logins */}
         <div className="signup-social-icons">
           <div className="signup-divider-with-text">
             <span className="signup-line"></span>

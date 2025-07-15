@@ -11,11 +11,30 @@ import EditPortfolio from './pages/EditPortfolio.jsx';
 import Placeholder from './additional_components/PlaceHolder.jsx';
 import { VendorProvider } from './contexts/VendorContext.jsx';
 import ProtectedRoute from './additional_components/ProtectedRoute.jsx';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
     <VendorProvider>
       <BrowserRouter>
+      <Toaster position="top-center" toastOptions={{
+    success: {
+      style: {
+        fontSize: '16px',
+        maxWidth: '500px',
+        padding: '16px 24px',
+      },
+    },
+    error: {
+      style: {
+        fontSize: '16px',
+        maxWidth: '500px',
+        padding: '16px 24px',
+        backgroundColor: '#ffefef',
+        color: '#d32f2f',
+      },
+    },
+  }}/>
         <Routes>
           {/* Public onboarding routes */}
           <Route path="/" element={<Signup />} />

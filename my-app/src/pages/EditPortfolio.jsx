@@ -5,125 +5,79 @@ import Header from '../additional_components/Header';
 import Sidebar from '../additional_components/Sidebar';
 import FileUploadSplit from '../additional_components/FileUpload.jsx';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 function EditPortfolio() {
   const { vendorData, setVendorData } = useContext(VendorContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [minPrice, setMinPrice] = useState(vendorData?.minPrice || '');
   const [maxPrice, setMaxPrice] = useState(vendorData?.maxPrice || '');
+
   const baseURL = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const formRef = useRef(null);
 
-  const handleSave = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
 
-    // Check HTML5 form validity
-    if (!formRef.current.checkValidity()) {
-      formRef.current.reportValidity(); // Show browser validation messages
+    const minPrice = form.minPrice.value.trim();
+    const maxPrice = form.maxPrice.value.trim();
+    const budgetRange = `$${minPrice}-$${maxPrice}`;
+
+    if (!minPrice || !maxPrice) {
+      toast.error('Both minimum and maximum price are required.');
       return;
     }
 
-    const updatedData = {
-      ...vendorData,
-      minPrice: minPrice || vendorData.minPrice,
-      maxPrice: maxPrice || vendorData.maxPrice,
-    };
-
-    // Custom validation for maxPrice > minPrice
-    const min = parseInt(updatedData.minPrice, 10);
-    const max = parseInt(updatedData.maxPrice, 10);
-    if ((minPrice || maxPrice) && (isNaN(min) || isNaN(max))) {
-      alert('Prices must be valid numbers.');
-      return;
-    }
-    if (minPrice && maxPrice && max <= min) {
-      alert('Maximum price must be greater than minimum price.');
+    if (parseInt(maxPrice) <= parseInt(minPrice)) {
+      toast.error('Maximum price must be greater than minimum price.');
       return;
     }
 
-    // Build payload with all required fields
-    const payload = {
-      fullName: vendorData.fullName || '',
-      email: vendorData.email || '',
-      phone: vendorData.phone || '',
-      services: updatedData.services || [],
-      budgetRange: minPrice && maxPrice ? `${min}-${max}` : vendorData.budgetRange || '',
-      city: updatedData.location || '',
-      socialProof: updatedData.mapLink || null,
-    };
+    setVendorData((prev) => ({
+      ...prev,
+      minPrice,
+      maxPrice,
+    }));
 
-    // Validate required fields
-    if (
-      !payload.fullName ||
-      !payload.email ||
-      !payload.phone ||
-      !payload.services ||
-      payload.services.length === 0 ||
-      !payload.budgetRange ||
-      !payload.city
-    ) {
-      alert('Please fill all required fields: full name, email, phone, services, price range, and city.');
-      return;
-    }
-
-    console.log('📦 Payload being sent:', JSON.stringify(payload, null, 2));
+    setIsSubmitting(true);
+    const loadingToast = toast.loading('Updating portfolio...');
 
     try {
-      const token = localStorage.getItem('token');
-      console.log('Token:', token);
-      const response = await fetch(`${baseURL}/onboarding/vendors/profile`, {
+      const res = await fetch(`${baseURL}/onboarding/vendors/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          fullName: vendorData.fullName,
+          email: vendorData.email,
+          phone: vendorData.phone || '0000000000',
+          services: vendorData.services || [],
+          budgetRange,
+          city: vendorData.location,
+          socialProof: vendorData.mapLink || '',
+        }),
       });
 
-      console.log('Response Status:', response.status);
-      const text = await response.text();
-      console.log('Response Body:', text);
+      const result = await res.json();
 
-      if (!response.ok) {
-        let result;
-        try {
-          result = JSON.parse(text);
-        } catch (e) {
-          alert(`HTTP ${response.status}: ${text}`);
-          return;
-        }
-        console.error('❌ API Error:', result);
-        alert(result.error || 'Error saving data.');
-        return;
+      if (res.ok) {
+        toast.success('Portfolio updated successfully.');
+        navigate('/EditProfile');
+      } else {
+        toast.error('Failed to update portfolio.');
       }
 
-      const result = JSON.parse(text);
-      setVendorData(updatedData);
-      navigate('/EditProfile');
     } catch (err) {
-      console.error('❌ Error:', err);
-      alert(`Something went wrong: ${err.message}`);
-    }
-  };
-
-  // Custom validation to make fields required only if changed to empty
-  const handleMinPriceChange = (e) => {
-    const value = e.target.value;
-    setMinPrice(value);
-    if (value === '') {
-      e.target.setCustomValidity('Minimum price cannot be empty if changed.');
-    } else {
-      e.target.setCustomValidity('');
-    }
-  };
-
-  const handleMaxPriceChange = (e) => {
-    const value = e.target.value;
-    setMaxPrice(value);
-    if (value === '') {
-      e.target.setCustomValidity('Maximum price cannot be empty if changed.');
-    } else {
-      e.target.setCustomValidity('');
+      console.error(err);
+      toast.error('Something went wrong. Please try again.');
+    } finally {
+      toast.dismiss(loadingToast);
+      setIsSubmitting(false);
     }
   };
 
@@ -133,25 +87,29 @@ function EditPortfolio() {
       <div className="editportfolio-main-content">
         <Header />
         <div className="editportfolio-scrollable">
-          <form ref={formRef} onSubmit={handleSave}>
+          <form ref={formRef} onSubmit={handleSubmit}>
             <div className="editportfolio-form-wrapper">
               <label className="editportfolio-label3">Price Range</label>
               <div className="editportfolio-price-range">
                 <input
+                  name="minPrice"
                   className="editportfolio-input-range"
                   type="number"
                   min="0"
                   placeholder="Minimum"
                   value={minPrice}
-                  onChange={handleMinPriceChange}
+                  onChange={(e) => setMinPrice(e.target.value)}
+                  required
                 />
                 <input
+                  name="maxPrice"
                   className="editportfolio-input-range"
                   type="number"
                   min="0"
                   placeholder="Maximum"
                   value={maxPrice}
-                  onChange={handleMaxPriceChange}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                  required
                 />
               </div>
             </div>
@@ -161,8 +119,8 @@ function EditPortfolio() {
             </div>
 
             <div className="editportfolio-save-button-container">
-              <button type="submit" className="editportfolio-save-button">
-                Save Changes
+              <button type="submit" className="editportfolio-save-button" disabled={isSubmitting}>
+                {isSubmitting ? 'Saving...' : 'Save Changes'}
               </button>
             </div>
           </form>

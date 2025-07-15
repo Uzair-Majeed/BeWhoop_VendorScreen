@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';  // ✅ Toast import
 import '../styles/VendorSetup.css';
 import karaokeBg from '../assets/Karaoke.png';
 import { VendorContext } from '../contexts/VendorContext.jsx';
@@ -12,6 +13,7 @@ function VendorSetup() {
     'Catering',
     'Videography',
   ]);
+  const [isSubmitting, setIsSubmitting] = useState(false);  // ✅ Loading state
 
   const { vendorData, setVendorData } = useContext(VendorContext);
   const baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -44,7 +46,7 @@ function VendorSetup() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     const form = e.target;
 
     const city = form.city.value;
@@ -62,35 +64,48 @@ function VendorSetup() {
       location: city,
     }));
 
+    setIsSubmitting(true);  // ✅ Disable button & show loading
+    const loadingToast = toast.loading('Registering vendor...');
+
     try {
       const res = await fetch(`${baseURL}/onboarding/vendors`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          fullName: `${vendorData.fullName}`,
+          fullName: vendorData.fullName,
           email: vendorData.email,
           phone: vendorData.phone || '0000000000',
           services: events,
           budgetRange,
           city,
-          socialProof: vendorData.mapLink || '',
+          socialProof: '',
           password: vendorData.password,
         }),
       });
 
       const result = await res.json();
+
       if (result.status === 'success') {
-        if (result.token) localStorage.setItem('token', result.token);
-        navigate('/UploadPortfolio');
+        if (result.token) {
+          localStorage.setItem('token', result.token);
+          toast.success('Vendor registered successfully.');
+          toast.dismiss(loadingToast);
+          navigate('/UploadPortfolio');
+        }
       } else {
-        alert(result.error || 'Registration failed');
+        toast.error(result.error || 'Registration failed.');
+        toast.dismiss(loadingToast);
         if (/(already exists|duplicate|already in use)/i.test(result.error)) {
-          setTimeout(() => navigate('/'), 2000);
+          toast.error('Redirecting to login...');
+          setTimeout(() => navigate('/'), 3000);
         }
       }
     } catch (err) {
       console.error(err);
-      alert('Something went wrong. Please try again.');
+      toast.error('Something went wrong. Please try again.');
+      toast.dismiss(loadingToast);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -154,9 +169,7 @@ function VendorSetup() {
           required
           defaultValue=""
         >
-          <option value="" disabled>
-            Select city
-          </option>
+          <option value="" disabled>Select city</option>
           <option>Islamabad</option>
           <option>Lahore</option>
           <option>Karachi</option>
@@ -192,8 +205,12 @@ function VendorSetup() {
           />
         </div>
 
-        <button type="submit" className="vendorsetup-next-button">
-          Next
+        <button
+          type="submit"
+          className="vendorsetup-next-button"
+          disabled={isSubmitting}   // ✅ Disable while submitting
+        >
+          {isSubmitting ? 'Submitting...' : 'Next'}
         </button>
       </form>
     </div>

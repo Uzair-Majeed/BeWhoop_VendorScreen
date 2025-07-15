@@ -1,11 +1,22 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { VendorContext } from '../contexts/VendorContext.jsx';
 import '../styles/Dashboard.css';
 import Header from '../additional_components/Header';
 import Sidebar from '../additional_components/Sidebar';
+import toast from 'react-hot-toast';
 
 function Dashboard() {
   const { vendorData } = useContext(VendorContext);
+
+  useEffect(() => {
+    if (!vendorData?.profileImage) {
+      toast.error('No profile image uploaded.');
+    }
+    if (!vendorData?.fullName && !vendorData?.firstName) {
+      toast.error('Incomplete profile: name missing.');
+    }
+  }, [vendorData]);
+
   return (
     <div className="dash-container">
       <Sidebar />
@@ -14,7 +25,7 @@ function Dashboard() {
         <Header />
 
         <div className="dash-body">
-          {vendorData?.profileImage && (
+          {vendorData?.profileImage ? (
             <img
               src={vendorData.profileImage}
               alt="Profile"
@@ -26,9 +37,7 @@ function Dashboard() {
                 border: '2px solid #ccc'
               }}
             />
-          )}
-
-          {!vendorData?.profileImage && (
+          ) : (
             <p>No profile image uploaded.</p>
           )}
 
@@ -48,7 +57,7 @@ function Dashboard() {
 
         <div className="dash-portfolio">
           {vendorData.portfolio?.map((file, index) => (
-            file.type.startsWith('image/') ? (
+            file.type?.startsWith('image/') ? (
               <img
                 key={index}
                 src={URL.createObjectURL(file)}

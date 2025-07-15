@@ -1,5 +1,6 @@
 import { useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';  // ✅ Import toast
 import { VendorContext } from '../contexts/VendorContext.jsx';
 import '../styles/VendorProfile.css';
 import bg from '../assets/bg-pic.png';
@@ -7,7 +8,6 @@ import defaultImage from '../assets/UploadPic.png';
 
 function VendorProfile() {
   const [profilePreview, setProfilePreview] = useState(null);
-  const [error, setError] = useState('');
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
   const { vendorData, setVendorData } = useContext(VendorContext);
@@ -33,21 +33,21 @@ function VendorProfile() {
     const description = document.querySelector('.vp-description-input').value.trim();
 
     if (!vendorData.profileImageFile) {
-      setError('Please upload a profile picture.');
+      toast.error('Please upload a profile picture.');
       return;
     }
 
     if (!description) {
-      setError('Please enter a short description about your services.');
+      toast.error('Please enter a short description about your services.');
       return;
     }
 
-    setError('');
     setVendorData((prevData) => ({
       ...prevData,
       description,
     }));
 
+    toast.success('Profile details saved!');
     navigate('/SettingUp');
   };
 
@@ -81,8 +81,6 @@ function VendorProfile() {
 
         <label className="vp-label2">Add Description</label>
         <textarea className="vp-description-input" placeholder="Write here..." />
-
-        {error && <p className="vp-error">{error}</p>}
 
         <button className="vp-next-button" onClick={handleNext}>
           Next

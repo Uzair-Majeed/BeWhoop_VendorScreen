@@ -5,6 +5,7 @@ import Header from '../additional_components/Header';
 import Sidebar from '../additional_components/Sidebar';
 import defaultImage from '../assets/UploadPic.png';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 function EditProfile() {
   const { vendorData, setVendorData } = useContext(VendorContext);
@@ -31,36 +32,29 @@ function EditProfile() {
   };
 
   const handleDescriptionChange = (e) => {
-    const value = e.target.value;
-    setDescription(value);
-    if (value === '') {
-      e.target.setCustomValidity('Description cannot be empty if changed.');
-    } else {
-      e.target.setCustomValidity('');
-    }
+    setDescription(e.target.value);
   };
 
   const handleSave = (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
 
-    // Check HTML5 form validity
-    if (!formRef.current.checkValidity()) {
-      formRef.current.reportValidity(); // Show browser validation messages
+    if (!vendorData.profileImage && !profilePreview) {
+      toast.error('Please select a profile picture.');
       return;
     }
 
-    // Validate profile picture
-    if (!vendorData.profileImage && !profilePreview) {
-      alert('Please select a profile picture.');
+    if (!description.trim()) {
+      toast.error('Description cannot be empty.');
       return;
     }
 
     const updatedData = {
       ...vendorData,
-      description: description || vendorData.description,
+      description,
     };
 
     setVendorData(updatedData);
+    toast.success('Profile updated successfully.');
     navigate('/EditServices');
   };
 

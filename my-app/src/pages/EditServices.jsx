@@ -1,10 +1,11 @@
 import { useContext, useState, useRef } from 'react';
 import { VendorContext } from '../contexts/VendorContext.jsx';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import '../styles/EditProfile.css';
 import Header from '../additional_components/Header';
 import Sidebar from '../additional_components/Sidebar';
-import mapImage from '../assets/mapImage.png'
+import mapImage from '../assets/mapImage.png';
 
 function EditServices() {
   const { vendorData, setVendorData } = useContext(VendorContext);
@@ -48,23 +49,11 @@ function EditServices() {
   };
 
   const handleLocationChange = (e) => {
-    const value = e.target.value;
-    setLocation(value);
-    if (value === '') {
-      e.target.setCustomValidity('City cannot be empty if changed.');
-    } else {
-      e.target.setCustomValidity('');
-    }
+    setLocation(e.target.value);
   };
 
   const handleGoogleMapChange = (e) => {
-    const value = e.target.value;
-    setGoogleMap(value);
-    if (value === '') {
-      e.target.setCustomValidity('Google Map link cannot be empty if changed.');
-    } else {
-      e.target.setCustomValidity('');
-    }
+    setGoogleMap(e.target.value);
   };
 
   const handleEventInputChange = (e) => {
@@ -72,38 +61,32 @@ function EditServices() {
   };
 
   const handleSave = (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
 
-    // Check HTML5 form validity
-    if (!formRef.current.checkValidity()) {
-      formRef.current.reportValidity(); // Show browser validation messages
+    if (!location.trim()) {
+      toast.error('Please select a city.');
       return;
     }
 
-    // Validate services
+    if (!googleMap.trim()) {
+      toast.error('Please enter Google Maps link.');
+      return;
+    }
+
     if (events.length === 0) {
-      alert('At least one service must be selected.');
+      toast.error('At least one service must be added.');
       return;
     }
 
     const updatedData = {
       ...vendorData,
-      location: location || vendorData.location,
-      mapLink: googleMap || vendorData.mapLink,
-      services: events.length > 0 ? events : vendorData.services,
+      location,
+      mapLink: googleMap,
+      services: events,
     };
 
-    // Validate required fields for context update
-    if (
-      !updatedData.services ||
-      updatedData.services.length === 0 ||
-      !updatedData.location
-    ) {
-      alert('Please fill all required fields!');
-      return;
-    }
-
     setVendorData(updatedData);
+    toast.success('Services updated successfully.');
     navigate('/EditPortfolio');
   };
 
@@ -128,7 +111,13 @@ function EditServices() {
                   {events.map((ev, index) => (
                     <span key={index} className="editservices-event-chip">
                       {ev}
-                      <button className="editservices-remove-btn" onClick={() => removeEvent(index)}>×</button>
+                      <button
+                        type="button"
+                        className="editservices-remove-btn"
+                        onClick={() => removeEvent(index)}
+                      >
+                        ×
+                      </button>
                     </span>
                   ))}
                 </div>
@@ -136,7 +125,11 @@ function EditServices() {
 
               <div className="editservices-available-events">
                 {availableEvents.map((ev, index) => (
-                  <span key={index} className="editservices-add-chip" onClick={() => addAvailableEvent(ev)}>
+                  <span
+                    key={index}
+                    className="editservices-add-chip"
+                    onClick={() => addAvailableEvent(ev)}
+                  >
                     {ev} +
                   </span>
                 ))}

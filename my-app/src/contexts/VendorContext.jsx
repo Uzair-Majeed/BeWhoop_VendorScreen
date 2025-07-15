@@ -16,7 +16,7 @@ export const VendorProvider = ({ children }) => {
     maxPrice: 0,
     cnicFront: null,
     cnicBack: null,
-    portfolio: null,
+    portfolio: [],
   });
 
   return (
